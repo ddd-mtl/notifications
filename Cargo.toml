@@ -5,11 +5,16 @@ opt-level = "z"
 opt-level = "z"
 
 [workspace]
-members = ["zomes/coordinator/*", "zomes/integrity/*"]
+members = [
+    "zomes/integrity/notifications",
+    "zomes/coordinator/notifications",
+    #"zomes/integrity/profiles",
+    #"zomes/coordinator/profiles",
+]
 resolver = "2"
 
 [workspace.dependencies]
-holochain = "0.2.0"
-hdk = "0.2.6"
-hdi = "0.3.6"
-serde = { version = "=1.0.163", default-features = false }
+holochain = "0.3.0-beta-dev.40"
+serde = { version = "=1.0.197", default-features = false }
+hdi = { version = "=0.4.0-beta-dev.30", default-features = false }
+hdk = { version = "=0.3.0-beta-dev.34", default-features = false }

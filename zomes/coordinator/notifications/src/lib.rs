@@ -4,6 +4,7 @@ pub mod notificant_to_notifiers;
 pub mod twilio_credentials;
 
 use hdk::prelude::*;
+use zome_utils::link_input;
 use notifications_integrity::*;
 use crate::twilio_credentials::*;
 
@@ -185,11 +186,11 @@ pub fn send_notification_tip(data: NotificationTip) -> ExternResult<()> {
     let path = Path::from(format!("all_notifiers"));
     let typed_path = path.typed(LinkTypes::AnchorToNotifiers)?;
     typed_path.ensure()?;
-    let links = get_links(
+    let links = get_links(link_input(
         typed_path.path_entry_hash()?,
         LinkTypes::AnchorToNotifiers,
         None,
-    )?;
+    ))?;
     let agents: Vec<AgentPubKey> = links
         .into_iter()
         .map(|link| AgentPubKey::from(EntryHash::try_from(link.target).map_err(|_| wasm_error!(WasmErrorInner::Guest("Expected actionhash".into()))).unwrap()))
@@ -281,11 +282,11 @@ pub fn find_a_notifier(_: ()) -> ExternResult<AgentPubKey> {
     let path = Path::from(format!("all_notifiers"));
     let typed_path = path.typed(LinkTypes::AnchorToNotifiers)?;
     typed_path.ensure()?;
-    let links = get_links(
+    let links = get_links(link_input(
         typed_path.path_entry_hash()?,
         LinkTypes::AnchorToNotifiers,
         None,
-    )?;
+    ))?;
     let agents: Vec<AgentPubKey> = links
         .into_iter()
         .map(|link| AgentPubKey::from(EntryHash::try_from(link.target).map_err(|_| wasm_error!(WasmErrorInner::Guest("Expected actionhash".into()))).unwrap()))
